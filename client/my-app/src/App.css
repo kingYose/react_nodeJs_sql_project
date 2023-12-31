@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+/* App.css */
+nav {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+body{
+  background: linear-gradient(500deg, #FFD900, rgb(193, 72, 72));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  font-family: 'Poppins', sans-serif;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+}
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+section {
+  text-align: center;
+  grid-template-columns: repeat(3,auto);
+  gap: 20px;
+}
+.divForm {
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2% auto;
+    padding: 20px;
+    width: 15%;
+    height: 350px;
+    background: #f0dda6;
+    border: 3px solid #2F2626;
+    border-radius: 5px;
+    animation: scaleUp 0.5s ease;
+}
+@keyframes scaleUp {
+  0% {
+    transform: scale(30);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+label {
+  margin-top: 10px;
+}
+input {
+  padding: 8px;
+  margin-bottom: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  border-radius:50px ;
+}
+#buttonsubmit {
+  padding: 5px;
+  width: 100%;
+  margin-left: 15%;
+  background-color:  #5A4914;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#buttonsubmit:hover {
+  background-color: #0056B3;
+}
+.butLink{
+  height: 450px;
+  width: 100%;
+  font-size: x-large;
+  background-color: #DFD4D4;
+  color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  margin-top: 150px;
+}
+.butLink:hover {
+  background-color: #C0C0C0;
+}
+Link {
+  color: #007BFF;
+  transition: color 0.3s ease;
+  font-weight: bold;
+}
+Link:hover {
+  color: #0056B3;
+}
+.panel{
+  display: flex;
+}
+.checkbox{
+  text-align: center;
+  margin-right: 17%;
+}
+.PresentationOfInformation{
+  color: #3A3C3A;
+  background-color: #AD8407;
+  font-size: 20px;
+}
+.butLinkToRegistration{
+  width: 20%;
+  text-align: center;
+  padding: 20px;
+  padding-top: 80px;
+  margin-top: 250px;
+ border: 3px solid black;
+  height: 150px;
+  background: linear-gradient(500deg ,rgb(193, 72, 72), #C5B039);
+}
+.butLinkToHome{
+  background-color: #C9AE5D;
+  padding-top: 30px;
+  width: 10%;
+  height: 80px;
+  margin-left: 45%;
+  margin-top: 50px;
+  border: 3px solid black;
+  background: linear-gradient(500deg ,rgb(193, 72, 72), #C5B039);
+}
+.SelectedPostDetails{
+color:  #625216;
+font-size: 20px;
+font-weight: bold;
+border:5px solid #C9AE5D;
+}
+.linkAlbumsToPhotos{
+  color: #333;
+}

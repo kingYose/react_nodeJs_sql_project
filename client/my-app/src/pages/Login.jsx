@@ -8,6 +8,7 @@ import * as yup from "yup";
 import Home from "./Home";
 import ReactDOM from "react-dom/client";
 import { UserContext } from "../App";
+import axios from "axios";
 
 function Login() {
   const { setCurrentUser, currentUser } = useContext(UserContext);
@@ -26,19 +27,18 @@ function Login() {
   const onSubmitHadler = async (event) => {
     let userName1 = document.getElementById("firstName").value;
     let password1 = document.getElementById("password").value;
-    const user = await fetch(
-      `http://localhost:3005/users?username=${userName1}&website=${password1}`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.length !== 0) {
+    const user = await axios
+      .post(`http://localhost:4080/login/`)
+      [{ username: userName1, password: password1 }]
+        if (user === true) {
           setCurrentUser([userName1, json[0].id]);
+          localStorage.setItem('currentUser'=userName1,password1)
           navigate("User/Home");
         } else {
           alert("user not exist");
         }
-      });
-  };
+      }
+  
 
   return (
     <section>

@@ -32,7 +32,6 @@ function App() {
           {/* <Route path='User/Home/album/:albumId' element={<Photos />}>   </Route> */}
           <Route path='*' element={<Error />}>  </Route>
         </Routes>
-        <footer>Each person is a world full of details, and we are here to reveal every detail of their book</footer>
       </UserContext.Provider>
     </BrowserRouter>
   );

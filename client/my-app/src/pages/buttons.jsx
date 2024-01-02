@@ -45,28 +45,24 @@ export default function Buttons(props) {
       .then((json) => console.log(json));
   }
 
-  function toApDateComplited() {
-    let content = prompt();
-    if (content == null) {
-      alert("Please enter a titel");
-      {
-        return;
-      }
-    }
-    fetch(
-      `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateComplet/${props.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          userId: currentUser[1],
-          title: content,
-          completed: false,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    )
+  function getTrueTodos() {
+    fetch(`http://localhost:4080/api/users/${currentUser[1]}/getTrue`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }
+
+  function getFalseTodos() {
+    fetch(`http://localhost:4080/api/users/${currentUser[1]}/getFalse`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
       .then((response) => response.json())
       .then((json) => console.log(json));
   }

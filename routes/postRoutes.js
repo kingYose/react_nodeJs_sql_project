@@ -16,7 +16,7 @@ posts_router.get('/getAll', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 posts_router.get('/get/:postId', async (req, res) => {
@@ -30,7 +30,7 @@ posts_router.get('/get/:postId', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 posts_router.post('/add', async (req, res) => {
@@ -44,7 +44,7 @@ posts_router.post('/add', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 posts_router.put('/update/:postId', async (req, res) => {
@@ -58,7 +58,7 @@ posts_router.put('/update/:postId', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 posts_router.delete('/delete/:postId', async (req, res) => {
@@ -72,7 +72,7 @@ posts_router.delete('/delete/:postId', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 
@@ -87,10 +87,10 @@ posts_router.get('/get/:postId/comments', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
-posts_router.post('/get/:postId/addComment', async (req, res) => {
+posts_router.post('/:postId/addComment', async (req, res) => {
         try {
                 const data = await commentsFunctions.addComment(req)
                 if (!data) {
@@ -101,11 +101,11 @@ posts_router.post('/get/:postId/addComment', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 
 })
-posts_router.delete('/get/:postId/delete/:id', async (req, res) => {
+posts_router.delete('/:postId/deleteComment/:id', async (req, res) => {
         try {
                 const data = await commentsFunctions.deleteComment(req)
                 if (!data) {
@@ -116,7 +116,7 @@ posts_router.delete('/get/:postId/delete/:id', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 

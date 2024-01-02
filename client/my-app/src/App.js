@@ -9,19 +9,21 @@ import Error from "./pages/Error";
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { number } from 'yup';
 
 export const UserContext = createContext({
   currentUser: [],
   setCurrentUser: () => [],
 });
 function App() {
-  const [currentUser, setCurrentUser] = useState([]);
+  const currentUserIn = JSON.parse(localStorage.getItem('currentUserIn'))
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || []);
   return (
     <BrowserRouter>
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <nav>
           <h3>Hello</h3>
-          <h3>{currentUser[0]}</h3>
+          <h3>{currentUserIn}</h3>
         </nav>
         <Routes>
           <Route path='/' element={<Login />}></Route>

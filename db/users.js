@@ -2,12 +2,15 @@ const pool = require('./conect')
 const mysql = require('mysql2');
 
 
-async function logIn(dataObj) {
-        const data = await pool.query(`SELECT username FROM users WHERE username=? JOIN password
-         ON users.id=password.userID AND password.password=?`, [dataObj.body.username, dataObj.body.password]);
-        if (data.length > 0) {
-                return true;
+async function logIn(req) {
+        const data = await pool.query(`SELECT username,userId FROM users JOIN passwords
+         ON users.id=passwords.userId AND passwords.password=? WHERE username=? `, [req.body.password, req.body.username]);
+        const resulte = JSON.stringify(data[0])
+        if (resulte[0].length > 0) {
+                return resulte;
         }
-        return false;
+        else {
+                return false;
+        }
 }
 module.exports = { logIn }

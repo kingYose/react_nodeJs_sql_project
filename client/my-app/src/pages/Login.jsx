@@ -11,7 +11,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 
 function Login() {
-  const { setCurrentUser, currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
   const schema = yup.object().shape({
     firstName: yup.string().required("You have to write something!"),
@@ -27,18 +27,26 @@ function Login() {
   const onSubmitHadler = async (event) => {
     let userName1 = document.getElementById("firstName").value;
     let password1 = document.getElementById("password").value;
-    const user = await axios
-      .post(`http://localhost:4080/login/`)
-      [{ username: userName1, password: password1 }]
-        if (user === true) {
-          setCurrentUser([userName1, json[0].id]);
-          localStorage.setItem('currentUser'=userName1,password1)
-          navigate("User/Home");
-        } else {
-          alert("user not exist");
-        }
+    const currentuser = await axios.post(
+      `http://localhost:4080/login/`,
+      { username: userName1, password: password1 },
+      {
+        params: { "api-version": "3.0" },
+        headers: {
+          auth: `${userName1}:${password1}`,
+        },
       }
-  
+    );
+    if (currentuser !== false) {
+      const resulte = currentuser.data[0];
+      const arrCurrentUser = [userName1, password1, resulte.userId];
+      setCurrentUser(arrCurrentUser);
+      localStorage.setItem("currentUserIn", JSON.stringify(arrCurrentUser));
+      navigate("User/Home");
+    } else {
+      alert("user not exist");
+    }
+  };
 
   return (
     <section>
@@ -53,6 +61,7 @@ function Login() {
             placeholder="userName"
             {...register("firstName")}
           ></input>
+
           <p>{errors.firstName?.message}</p>
 
           <br />
@@ -64,6 +73,7 @@ function Login() {
             placeholder="password"
             {...register("password")}
           ></input>
+
           <p>{errors.confirmPassword?.message}</p>
 
           <br />

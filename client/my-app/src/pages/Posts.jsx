@@ -17,7 +17,7 @@ export default function Posts() {
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(
-        `http://localhost:3005/posts?userId=${currentUser[1]}`
+        `http://localhost:4080//api/users/${currentUser[1]}/posts/getAll`
       );
       const json = await response.json();
       setPosts(json);
@@ -35,7 +35,7 @@ export default function Posts() {
     if (content == null) {
       return;
     }
-    fetch("http://localhost:4080//posts", {
+    fetch(`http://localhost:4080/api/users/${currentUser[1]}/posts/add`, {
       method: "POST",
       body: JSON.stringify({
         userId: currentUser[1],
@@ -49,10 +49,6 @@ export default function Posts() {
       .then((json) => console.log(json));
   }
 
-  function SortingTitleVal() {
-    <input type="text" />;
-  }
-
   function toApDate() {
     let content = prompt();
     if (content == null) {
@@ -61,27 +57,73 @@ export default function Posts() {
         return;
       }
     }
-    fetch(`http://localhost:3005/posts/${currentUser[1]}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        userId: currentUser[1],
-        title: content,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/posts/update/${currentUser[1]}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          userId: currentUser[1],
+          title: content,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => console.log(json));
   }
 
   function deletePost() {
-    fetch(`http://localhost:3005/posts/${currentUser[1]}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/posts/delete/${currentUser[1]}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }
+  function getComments() {
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/get/${currentUser[1]}/comments`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }
+
+  function addComment() {
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/${currentUser[1]}/addComment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }
+  function deleteComment() {
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/:postId/deleteComment/:id`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => console.log(json));
   }
@@ -90,9 +132,13 @@ export default function Posts() {
     setSelectedPost(post);
   }
 
+  function SortingTitleVal() {
+    <input type="text" />;
+  }
+
   return (
     <section>
-      <div className=" butLinkToHome">
+      <div className="butLinkToHome">
         <Link to="/User/Home">Home</Link>
       </div>
       <br />
@@ -106,7 +152,7 @@ export default function Posts() {
       >
         add
       </button>
-      <div></div>
+
       <br />
       {selectedPost && (
         <div className="SelectedPostDetails">

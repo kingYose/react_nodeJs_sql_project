@@ -13,13 +13,16 @@ function Todos() {
   const [json, setJson] = useState([]);
 
   useEffect(() => {
+    console.log(currentUser);
+    const current = currentUser[2];
     const fetchTodos = async () => {
       const response = await fetch(
-        `http://localhost:3005/todos?userId=${currentUser[1]}`
+        `http://localhost:4080/api/users/${current}/toDos/get`
       );
-      const json = await response.json();
+      const [json] = await response.json();
+      console.log(json);
       setTodos(json);
-      setJson(json);
+      // setJson(json);
     };
     fetchTodos();
   }, [render]);
@@ -33,7 +36,7 @@ function Todos() {
     if (content == null) {
       return;
     }
-    fetch("http://localhost:3005/Todos", {
+    fetch(`http://localhost:4080//api/users/${currentUser[1]}/toDos/add`, {
       method: "POST",
       body: JSON.stringify({
         userId: currentUser[1],
@@ -48,77 +51,75 @@ function Todos() {
       .then((json) => console.log(json));
   }
 
-  function TaskExecutionUpdate(oneTodo) {
+  function changeTodoCompleted(oneTodo) {
     const changeCompleted = !oneTodo.completed;
     const saveTitle = oneTodo.title;
-    fetch(`http://localhost:3005/Todos/${oneTodo.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        userId: currentUser[1],
-        title: saveTitle,
-        completed: changeCompleted,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
+    fetch(
+      `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateComplet/${oneTodo.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          userId: currentUser[1],
+          title: saveTitle,
+          completed: changeCompleted,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => console.log(json));
   }
 
   function selectHandler(e) {
     if (e.target.value === "A-Z") {
-        let newData = [...todos];
-        newData.sort((a, b) => {
-            if (a.title < b.title) {
-                return -1
-            }
-            else if (a.title > b.title) {
-                return 1
-            }
-            else {
-                return 0
-            }
-        })
-        setTodos(newData)
+      let newData = [...todos];
+      newData.sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        } else if (a.title > b.title) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      setTodos(newData);
     }
     if (e.target.value === "Completed") {
-        let newData = [...todos];
-        newData.sort((a, b) => {
-            if (a.completed) {
-                return -1
-            }
-            else if (!a.completed) {
-                return 1
-            }
-        })
-        setTodos(newData)
+      let newData = [...todos];
+      newData.sort((a, b) => {
+        if (a.completed) {
+          return -1;
+        } else if (!a.completed) {
+          return 1;
+        }
+      });
+      setTodos(newData);
     }
     if (e.target.value === "uncompleted") {
       let newData = [...todos];
       newData.sort((a, b) => {
-          if (a.completed) {
-              return 1
-          }
-          else if (!a.completed) {
-              return -1
-          }
-      })
-      setTodos(newData)
-  }
-    if (e.target.value === "Randomaly") {
-        let newData = [...todos];
-        newData.sort((x, y) => {
-            if (Math.random() < 0.5) {
-                return 1
-            } else {
-                return -1
-            }
-        })
-        setTodos(newData)
+        if (a.completed) {
+          return 1;
+        } else if (!a.completed) {
+          return -1;
+        }
+      });
+      setTodos(newData);
     }
-}
-
+    if (e.target.value === "Randomaly") {
+      let newData = [...todos];
+      newData.sort((x, y) => {
+        if (Math.random() < 0.5) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+      setTodos(newData);
+    }
+  }
 
   return (
     <section>
@@ -135,12 +136,12 @@ function Todos() {
       />
       <br />
 
-      <select className='filter' onChange={(e) => selectHandler(e)}>
-                    <option value="A-Z">A-Z</option>
-                    <option value="Randomaly">Randomaly</option>
-                    <option value="Completed">Completed</option>
-                    <option value="uncompleted">uncompleted</option>
-                </select>
+      <select className="filter" onChange={(e) => selectHandler(e)}>
+        <option value="A-Z">A-Z</option>
+        <option value="Randomaly">Randomaly</option>
+        <option value="Completed">Completed</option>
+        <option value="uncompleted">uncompleted</option>
+      </select>
       <br />
       <button
         onClick={() => {
@@ -161,7 +162,7 @@ function Todos() {
               <div className="checkbox">
                 <input
                   onChange={() => {
-                    TaskExecutionUpdate(todo);
+                    changeTodoCompleted(todo);
                     setRender((prevRender) => prevRender + 1);
                   }}
                   type="checkbox"

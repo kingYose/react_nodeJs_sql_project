@@ -15,7 +15,7 @@ todos_router.get('/get', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 todos_router.get('/getTrue', async (req, res) => {
@@ -29,7 +29,7 @@ todos_router.get('/getTrue', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 todos_router.get('/getFalse', async (req, res) => {
@@ -43,13 +43,11 @@ todos_router.get('/getFalse', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 
 
 })
-
-
 todos_router.post('/add', async (req, res) => {
         try {
                 const data = await todos_function.addTodo(req)
@@ -61,7 +59,7 @@ todos_router.post('/add', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 
 })
@@ -76,7 +74,7 @@ todos_router.put('/updateTitle/:id', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 
 
@@ -92,7 +90,7 @@ todos_router.put('/updateComplet/:id', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 todos_router.delete('/delete/:id', async (req, res) => {
@@ -106,7 +104,7 @@ todos_router.delete('/delete/:id', async (req, res) => {
                 }
         }
         catch {
-                res.status(400).send('bad request')
+                res.status(500).send()
         }
 })
 

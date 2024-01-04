@@ -10,8 +10,11 @@ export default function Buttons(props) {
 
   function deleteTodo() {
     try {
+      (function () {
+        props.setRender(props.render + 1);
+      })();
       fetch(
-        `http://localhost:4080/api/users/${currentUser[1]}/toDos/delete/${props.id}`,
+        `http://localhost:4080/api/users/${currentUser.userId}/toDos/delete/${props.id}`,
         {
           method: "DELETE",
           headers: {
@@ -27,6 +30,9 @@ export default function Buttons(props) {
 
   function toApDateTitel() {
     try {
+      (function () {
+        props.setRender(props.render + 1);
+      })();
       let content = prompt();
       if (content == null) {
         alert("Please enter a titel");
@@ -81,6 +87,7 @@ export default function Buttons(props) {
   return (
     <div>
       <button
+        className="buttonForEverdiv"
         onClick={() => {
           toApDateTitel();
           props.setRender(props.render + 1);
@@ -89,6 +96,7 @@ export default function Buttons(props) {
         update
       </button>
       <button
+        className="buttonForEverdiv"
         onClick={() => {
           deleteTodo();
           props.setRender(props.render + 1);

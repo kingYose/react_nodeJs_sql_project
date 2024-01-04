@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
   // const {id}=useParams()
@@ -13,15 +14,25 @@ export default function Posts() {
   const [renderFilter, setRenderFilter] = useState(0);
   const [json, setJson] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
+  const navigate = useNavigate();
+
+  const chekUserIn = () => {
+    const data = localStorage.getItem("currentUserIn");
+    if (!data) {
+      navigate("/");
+      return;
+    }
+  };
+  chekUserIn();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(
-        `http://localhost:4080//api/users/${currentUser[1]}/posts/getAll`
+        `http://localhost:4080/api/users/${currentUser[1]}/posts/getAll`
       );
       const json = await response.json();
       setPosts(json);
-      setJson(json);
+      // setJson(json);
     };
     fetchPosts();
   }, [render]);
@@ -123,13 +134,12 @@ export default function Posts() {
           "Content-type": "application/json; charset=UTF-8",
         },
       }
-    )
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+    ).then((response) => response.json());
   }
 
   function showPost(post) {
     setSelectedPost(post);
+    setRender(render + 1);
   }
 
   function SortingTitleVal() {
@@ -139,12 +149,13 @@ export default function Posts() {
   return (
     <section>
       <div className="butLinkToHome">
-        <Link to="/Home">Home</Link>
+        <Link to={`/User/${currentUser.id}/Home/`}>Home</Link>
       </div>
       <br />
       <button onClick={SortingTitleVal}>Search by title</button>
       <br />
       <button
+        className="buttonForEverdiv"
         onClick={() => {
           add();
           setRender(1);
@@ -169,6 +180,7 @@ export default function Posts() {
               <li>{post.title}</li>
               <li>{post.body}</li>
               <button
+                className="buttonForEverdiv"
                 onClick={() => {
                   toApDate();
                   setRender(render + 1);
@@ -178,6 +190,7 @@ export default function Posts() {
               </button>
 
               <button
+                className="buttonForEverdiv"
                 onClick={() => {
                   deletePost();
                   setRender(render + 1);
@@ -187,6 +200,7 @@ export default function Posts() {
               </button>
 
               <button
+                className="buttonForEverdiv"
                 onClick={() => {
                   showPost(post);
                 }}

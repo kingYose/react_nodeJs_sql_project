@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Todos from "./pages/Todos";
 import Posts from "./pages/Posts";
 import Error from "./pages/Error";
+import Albums from "./pages/Albums";
+import Photos from './pages/photos';
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -17,7 +19,10 @@ export const UserContext = createContext({
 });
 function App() {
   const currentUserIn = JSON.parse(localStorage.getItem('currentUserIn'))
-  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || []);
+  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUserIn')) || []);
+
+
+
   return (
     <BrowserRouter>
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
@@ -29,9 +34,9 @@ function App() {
           <Route path='/' element={<Login />}></Route>
           <Route path='User/:id/Home/' element={<Home />} >  </Route>
           <Route path='User/:id/Home/Todos' element={<Todos />}>  </Route>
-          {/* <Route path='User/Home/Albums' element={<Albums />}>   </Route> */}
+          <Route path='User/:id/Home/Albums' element={<Albums />}>   </Route>
           <Route path='User/:id/Home/Posts' element={<Posts />}>  </Route>
-          {/* <Route path='User/Home/album/:albumId' element={<Photos />}>   </Route> */}
+          <Route path='User/:id/Home/album/:albumId' element={<Photos />}>   </Route>
           <Route path='*' element={<Error />}>  </Route>
         </Routes>
       </UserContext.Provider>

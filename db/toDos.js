@@ -3,10 +3,10 @@ const mysql = require('mysql2');
 
 async function getToDos(user) {
         const sql = `SELECT * FROM todos WHERE userId=?`
-
         const data = await pool.query(sql, [user.userId])
         return data;
 }
+
 async function getTrueToDos(user) {
         const sql = `SELECT * FROM todos WHERE completed=?`
         const data = await pool.query(sql, [user.userId, 1])

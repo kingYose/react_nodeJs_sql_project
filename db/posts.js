@@ -4,7 +4,8 @@ const pool = require('./conect')
 
 async function getAllPosts() {
         const sql = `SELECT * FROM posts`;
-        const data = await pool.query(sql)
+        const [data] = await pool.query(sql)
+        console.log(data);
         return data;
 }
 

@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+// import { UserContext } from "../App";
 
 function Home() {
+  // const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (function () {
+      const data = localStorage.getItem("currentUserIn");
+      console.log(data);
+      if (!data) {
+        navigate("/");
+
+        return;
+      }
+    })();
+  }, []);
 
   return (
     <section className="panel">

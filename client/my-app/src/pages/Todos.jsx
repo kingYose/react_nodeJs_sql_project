@@ -4,6 +4,7 @@ import { UserContext } from "../App";
 import Buttons from "./buttons";
 import Sorting from "./sorting";
 import { useNavigate } from "react-router-dom";
+
 function Todos() {
   const { currentUser } = useContext(UserContext);
   const [todos, setTodos] = useState([]);
@@ -13,21 +14,45 @@ function Todos() {
   const [json, setJson] = useState([]);
   const navigate = useNavigate();
 
+  const chekUserIn = () => {
+    const data = localStorage.getItem("currentUserIn");
+    if (!data) {
+      navigate("/");
+      return;
+    }
+  };
+  chekUserIn();
+
   const id = parseInt(currentUser.id);
   const dataFromLocalStorage = JSON.parse(
     localStorage.getItem("currentUserIn")
   );
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const response = await fetch(
-        `http://localhost:4080/api/users/${id}/toDos/get`
-      );
-      const [json] = await response.json();
-      setTodos(json);
+    try {
+      const fetchTodos = async () => {
+        console.log(currentUser);
+        const response = await fetch(
+          `http://localhost:4080/api/users/${id}/toDos/get`,
+          {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              auth: `${currentUser.username}:${currentUser.password}`,
+            },
+          }
+        );
+
+        const [json] = await response.json();
+        setTodos(json);
+      };
+
       // setJson(json);
-    };
-    fetchTodos();
+
+      fetchTodos();
+    } catch (err) {
+      console.log(err);
+    }
   }, [render]);
 
   useEffect(() => {
@@ -36,6 +61,9 @@ function Todos() {
 
   function add() {
     try {
+      // (function () {
+      //   setRender(render + 1);
+      // })();
       let content = prompt();
       if (content == null) {
         return;
@@ -49,12 +77,9 @@ function Todos() {
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          auth: `${dataFromLocalStorage.username}:${dataFromLocalStorage.password}`,
+          auth: `${currentUser.username}:${currentUser.password}:${currentUser.id}`,
         },
-      });
-      (function () {
-        setRender(render + 1);
-      })();
+      }).then(() => setRender(render + 1));
     } catch (err) {
       alert(err);
     }
@@ -159,6 +184,7 @@ function Todos() {
       </select>
       <br />
       <button
+        className="buttonForEverdiv"
         onClick={() => {
           add();
           setRender(render + 1);
@@ -171,6 +197,7 @@ function Todos() {
         {todos.map((todo) => (
           <div className="PresentationOfInformation" key={todo.id}>
             <ul>
+              <br />
               <li>{todo.id}</li>
               <li>{todo.title}</li>
               <li> {"status is: " + todo.completed}</li>

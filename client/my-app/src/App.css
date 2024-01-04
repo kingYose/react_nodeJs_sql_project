@@ -7,7 +7,8 @@ nav {
   text-align: center;
 }
 body{
-  background: linear-gradient(500deg, #FFD900, rgb(193, 72, 72));
+  /* background: linear-gradient(500deg, #FFD900, rgb(193, 72, 72)); */
+  background-color: #fcbd00;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -33,7 +34,6 @@ section {
   gap: 20px;
 }
 .divForm {
-  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,6 +80,13 @@ input {
 #buttonsubmit:hover {
   background-color: #0056B3;
 }
+.buttonForEverdiv{
+  color: #da8b14;
+  height: 30px;
+  width: 10%;
+ margin: 30px;
+ 
+}
 .butLink{
   height: 450px;
   width: 100%;
@@ -92,7 +99,7 @@ input {
   text-align: center;
   margin-top: 150px;
 }
-.butLink:hover {
+.butLink,  .buttonForEverdiv:hover {
   background-color: #C0C0C0;
 }
 Link {
@@ -112,8 +119,11 @@ Link:hover {
 }
 .PresentationOfInformation{
   color: #3A3C3A;
-  background-color: #AD8407;
+  background-color: rgb(193, 72, 72);
   font-size: 20px;
+  width: 45%;
+  margin: auto;
+  background: radial-gradient(circle, #ff4e50,#ff4e50,#ff4e50, #363636);
 }
 .butLinkToRegistration{
   width: 20%;

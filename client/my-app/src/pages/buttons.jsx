@@ -4,45 +4,56 @@ import { useContext } from "react";
 
 export default function Buttons(props) {
   const { currentUser } = useContext(UserContext);
+  const dataFromLocalStorage = JSON.parse(
+    localStorage.getItem("currentUserIn")
+  );
 
   function deleteTodo() {
-    fetch(
-      `http://localhost:4080/api/users/${currentUser[1]}/toDos/delete/${props.id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+    try {
+      fetch(
+        `http://localhost:4080/api/users/${currentUser[1]}/toDos/delete/${props.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            auth: `${dataFromLocalStorage.username}:${dataFromLocalStorage.password}`,
+          },
+        }
+      );
+    } catch (err) {
+      alert(err.message);
+    }
   }
 
   function toApDateTitel() {
-    let content = prompt();
-    if (content == null) {
-      alert("Please enter a titel");
-      {
-        return;
+    try {
+      let content = prompt();
+      if (content == null) {
+        alert("Please enter a titel");
+        {
+          return;
+        }
       }
+      fetch(
+        `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateTitle/${props.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            userId: currentUser[1],
+            title: content,
+            completed: false,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            auth: `${dataFromLocalStorage.username}:${dataFromLocalStorage.password}`,
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+    } catch (err) {
+      alert(err.message);
     }
-    fetch(
-      `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateTitle/${props.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          userId: currentUser[1],
-          title: content,
-          completed: false,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => console.log(json));
   }
 
   function getTrueTodos() {

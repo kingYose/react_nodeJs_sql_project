@@ -139,7 +139,7 @@ export default function Posts() {
   return (
     <section>
       <div className="butLinkToHome">
-        <Link to="/User/Home">Home</Link>
+        <Link to="/Home">Home</Link>
       </div>
       <br />
       <button onClick={SortingTitleVal}>Search by title</button>
@@ -167,7 +167,7 @@ export default function Posts() {
             <ul>
               <li>{post.id}</li>
               <li>{post.title}</li>
-              {/* <li>{post.body}</li> */}
+              <li>{post.body}</li>
               <button
                 onClick={() => {
                   toApDate();

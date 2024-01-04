@@ -11,6 +11,8 @@ import { UserContext } from "../App";
 import axios from "axios";
 
 function Login() {
+  const [userName1, setuserName1] = useState();
+  const [password1, setpassword1] = useState();
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
   const schema = yup.object().shape({
@@ -24,26 +26,46 @@ function Login() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema), mode: "onBlur" });
 
+  const {
+    onChange: onChangeRegisterName,
+    onBlur,
+    name,
+    ref,
+  } = register("firstName");
+
+  const {
+    onChange: onChangeRegisterPass,
+    onBlur: onBlurRegisterPass,
+    name: nameRegisterPass,
+    ref: refRegisterPass,
+  } = register("password");
+
+  function onChangeUserName(e) {
+    onChangeRegisterName(e);
+    setuserName1(e.target.value);
+  }
+  function onChangePassword(e) {
+    onChangeRegisterPass(e);
+    setpassword1(e.target.value);
+  }
+
   const onSubmitHadler = async (event) => {
-    let userName1 = document.getElementById("firstName").value;
-    let password1 = document.getElementById("password").value;
-    const currentuser = await axios.post(
-      `http://localhost:4080/login/`,
-      { username: userName1, password: password1 },
-      {
-        params: { "api-version": "3.0" },
-        headers: {
-          auth: `${userName1}:${password1}`,
-        },
-      }
-    );
-    if (currentuser !== false) {
-      const resulte = currentuser.data[0];
-      const arrCurrentUser = [userName1, password1, resulte.userId];
+    try {
+      const { data } = await axios.post(`http://localhost:4080/login/`, {
+        username: userName1,
+        password: password1,
+      });
+      const arrCurrentUser = {
+        username: userName1,
+        password: password1,
+        id: data.userId,
+      };
+
       setCurrentUser(arrCurrentUser);
       localStorage.setItem("currentUserIn", JSON.stringify(arrCurrentUser));
-      navigate("User/Home");
-    } else {
+      const id = parseInt(currentUser.id);
+      navigate(`User/${id}/Home/`);
+    } catch (err) {
       alert("user not exist");
     }
   };
@@ -56,10 +78,14 @@ function Login() {
         <form onSubmit={handleSubmit(onSubmitHadler)}>
           <label htmlFor="firstName"></label>
           <input
+            onChange={onChangeUserName}
             type="text"
             id="firstName"
             placeholder="userName"
-            {...register("firstName")}
+            onBlur={onBlur}
+            name={name}
+            ref={ref}
+            // {...register("firstName")}
           ></input>
 
           <p>{errors.firstName?.message}</p>
@@ -68,10 +94,14 @@ function Login() {
 
           <label htmlFor="password"> </label>
           <input
-            type="text"
+            onChange={onChangePassword}
+            type="password"
             id="password"
             placeholder="password"
-            {...register("password")}
+            onBlur={onBlurRegisterPass}
+            name={nameRegisterPass}
+            ref={refRegisterPass}
+            // {...register("password")}
           ></input>
 
           <p>{errors.confirmPassword?.message}</p>

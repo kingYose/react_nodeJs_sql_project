@@ -50,12 +50,13 @@ todos_router.get('/getFalse', async (req, res) => {
 })
 todos_router.post('/add', async (req, res) => {
         try {
+
                 const data = await todos_function.addTodo(req)
-                if (!data) {
+                if (data.affectedRows < 1) {
                         res.status(404).send('Not Found')
                 }
                 else {
-                        res.send(data)
+                        res.send('scsess')
                 }
         }
         catch {

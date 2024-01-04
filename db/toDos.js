@@ -21,7 +21,8 @@ async function getFalseToDos(user) {
 async function addTodo(dataObj) {   //data is an object{data.userId, data.title, data.body}
         const sql = `INSERT INTO todos (userId,title,completed)
         values (?,?,?)`
-        const data = await pool.query(sql, [dataObj.userId, dataObj.body.title, dataObj.body.completed]);
+        const data = await pool.query(sql, [dataObj.body.userId, dataObj.body.title, dataObj.body.completed]);
+        console.log(data)
         return data;
 }
 
@@ -36,8 +37,8 @@ async function updateTodoTitle(dataObj) {
 async function updateTodoComplet(dataObj) {
         const sql = `UPDATE todos SET todos.completed=? WHERE todos.id=? `
         const data = await pool.query(
-                sql, [dataObj.body.completed, dataObj.params.id])
-        console.log(data);
+                sql, [dataObj.body.completed, dataObj.body.todoId])
+        console.log([dataObj.body.completed, dataObj.body.todoId].toString());
         return data;
 }
 async function deleteTodo(dataObj) {

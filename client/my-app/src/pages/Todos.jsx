@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../App";
 import Buttons from "./buttons";
 import Sorting from "./sorting";
-
+import { useNavigate } from "react-router-dom";
 function Todos() {
   const { currentUser } = useContext(UserContext);
   const [todos, setTodos] = useState([]);
@@ -11,16 +11,19 @@ function Todos() {
   const [render, setRender] = useState(0);
   const [renderFilter, setRenderFilter] = useState(0);
   const [json, setJson] = useState([]);
+  const navigate = useNavigate();
+
+  const id = parseInt(currentUser.id);
+  const dataFromLocalStorage = JSON.parse(
+    localStorage.getItem("currentUserIn")
+  );
 
   useEffect(() => {
-    console.log(currentUser);
-    const current = currentUser[2];
     const fetchTodos = async () => {
       const response = await fetch(
-        `http://localhost:4080/api/users/${current}/toDos/get`
+        `http://localhost:4080/api/users/${id}/toDos/get`
       );
       const [json] = await response.json();
-      console.log(json);
       setTodos(json);
       // setJson(json);
     };
@@ -32,39 +35,50 @@ function Todos() {
   }, [renderFilter]);
 
   function add() {
-    let content = prompt();
-    if (content == null) {
-      return;
+    try {
+      let content = prompt();
+      if (content == null) {
+        return;
+      }
+      fetch(`http://localhost:4080/api/users/${currentUser}/toDos/add`, {
+        method: "POST",
+        body: JSON.stringify({
+          userId: currentUser.id,
+          title: content,
+          completed: 0,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          auth: `${dataFromLocalStorage.username}:${dataFromLocalStorage.password}`,
+        },
+      });
+      (function () {
+        setRender(render + 1);
+      })();
+    } catch (err) {
+      alert(err);
     }
-    fetch(`http://localhost:4080//api/users/${currentUser[1]}/toDos/add`, {
-      method: "POST",
-      body: JSON.stringify({
-        userId: currentUser[1],
-        title: content,
-        completed: false,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
   }
 
   function changeTodoCompleted(oneTodo) {
     const changeCompleted = !oneTodo.completed;
+    // oneTodo.completed == 1
+    //   ? changeTodoCompleted == 0
+    //   : changeTodoCompleted == 1;
     const saveTitle = oneTodo.title;
     fetch(
-      `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateComplet/${oneTodo.id}`,
+      `http://localhost:4080/api/users/${currentUser.id}/toDos/updateComplet/${oneTodo.id}`,
       {
         method: "PUT",
         body: JSON.stringify({
-          userId: currentUser[1],
+          todoId: oneTodo.id,
+          userId: currentUser.id,
           title: saveTitle,
           completed: changeCompleted,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
+          auth: `${dataFromLocalStorage.username}:${dataFromLocalStorage.password}`,
         },
       }
     )
@@ -123,8 +137,9 @@ function Todos() {
 
   return (
     <section>
-      <div className=" butLinkToHome">
-        <Link to="/User/Home">Home</Link>
+      <div className="butLinkToHome">
+        {/* {navigate("/User/1/Home/")} */}
+        <Link to={`/User/${currentUser.id}/Home/`}>Home</Link>
       </div>
       <br />
       <Sorting
@@ -146,7 +161,7 @@ function Todos() {
       <button
         onClick={() => {
           add();
-          setRender(1);
+          setRender(render + 1);
         }}
       >
         add
@@ -158,7 +173,7 @@ function Todos() {
             <ul>
               <li>{todo.id}</li>
               <li>{todo.title}</li>
-              <li>{todo.completed.toString()}</li>
+              <li> {"status is: " + todo.completed}</li>
               <div className="checkbox">
                 <input
                   onChange={() => {
@@ -166,6 +181,7 @@ function Todos() {
                     setRender((prevRender) => prevRender + 1);
                   }}
                   type="checkbox"
+                  style={todo.completed == 0 ? { visibility: "hidden" } : null}
                 />
               </div>
               <Buttons

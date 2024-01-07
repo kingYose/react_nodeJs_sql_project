@@ -173,10 +173,11 @@ function Todos() {
         setTodosFilter={setTodosFilter}
         setRenderFilter={setRenderFilter}
         renderFilter={renderFilter}
+        setRender={setRender}
       />
       <br />
 
-      <select className="filter" onChange={(e) => selectHandler(e)}>
+      <select className="buttonForEverdiv" onChange={(e) => selectHandler(e)}>
         <option value="A-Z">A-Z</option>
         <option value="Randomaly">Randomaly</option>
         <option value="Completed">Completed</option>

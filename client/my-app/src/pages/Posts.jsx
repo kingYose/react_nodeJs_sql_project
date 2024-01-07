@@ -142,9 +142,9 @@ export default function Posts() {
     setRender(render + 1);
   }
 
-  function SortingTitleVal() {
-    <input type="text" />;
-  }
+  // function SortingTitleVal() {
+  //   <input type="text" />;
+  // }
 
   return (
     <section>
@@ -152,7 +152,7 @@ export default function Posts() {
         <Link to={`/User/${currentUser.id}/Home/`}>Home</Link>
       </div>
       <br />
-      <button onClick={SortingTitleVal}>Search by title</button>
+      {/* <button onClick={SortingTitleVal}>Search by title</button> */}
       <br />
       <button
         className="buttonForEverdiv"
@@ -203,6 +203,7 @@ export default function Posts() {
                 className="buttonForEverdiv"
                 onClick={() => {
                   showPost(post);
+                  setRender(render + 1);
                 }}
               >
                 Show me

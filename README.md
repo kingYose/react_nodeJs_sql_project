@@ -7,7 +7,7 @@ react_nodeJs_sql__project
 
 
 **Note:**
-- The frontend runs on http://localhost:3000.
+- The frontend runs on localhost server that avilibal in the start time.
 - The server runs on port 4080.
 
 - - **User Authentication:**

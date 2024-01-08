@@ -14,7 +14,7 @@ export default function Buttons(props) {
         props.setRender(props.render + 1);
       })();
       fetch(
-        `http://localhost:4080/api/users/${currentUser.userId}/toDos/delete/${props.id}`,
+        `http://localhost:4080/api/users/${currentUser.id}/toDos/delete/${props.id}`,
         {
           method: "DELETE",
           headers: {
@@ -41,7 +41,7 @@ export default function Buttons(props) {
         }
       }
       fetch(
-        `http://localhost:4080/api/users/${currentUser[1]}/toDos/updateTitle/${props.id}`,
+        `http://localhost:4080/api/users/${currentUser.id}/toDos/updateTitle/${props.id}`,
         {
           method: "PUT",
           body: JSON.stringify({

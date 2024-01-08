@@ -42,7 +42,7 @@ async function updateTodoComplet(dataObj) {
         return data;
 }
 async function deleteTodo(dataObj) {
-        const sql = `DELETE FROM todos  WHERE id=?`
+        const sql = `DELETE FROM todos WHERE id=?`
         const data = await pool.query(sql, [dataObj.params.id])
         return data;
 

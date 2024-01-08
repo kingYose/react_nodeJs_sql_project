@@ -86,11 +86,14 @@ function Todos() {
   }
 
   function changeTodoCompleted(oneTodo) {
-    const changeCompleted = !oneTodo.completed;
-    // oneTodo.completed == 1
-    //   ? changeTodoCompleted == 0
-    //   : changeTodoCompleted == 1;
+    let changeCompleted = 2;
+    if (parseInt(oneTodo.completed) === 1) {
+      changeCompleted === 0;
+    } else {
+      changeCompleted === 1;
+    }
     const saveTitle = oneTodo.title;
+
     fetch(
       `http://localhost:4080/api/users/${currentUser.id}/toDos/updateComplet/${oneTodo.id}`,
       {
@@ -213,7 +216,7 @@ function Todos() {
                 />
               </div>
               <Buttons
-                userId={currentUser[1]}
+                userId={currentUser.id}
                 id={todo.id}
                 setRender={setRender}
                 render={render}

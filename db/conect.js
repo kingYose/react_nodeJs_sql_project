@@ -1,14 +1,16 @@
 const mysql = require('mysql2/promise');
-const pool = mysql.createPool({
 
+const pool = mysql.createPool({
         host: 'localhost',
         user: 'root',
         database: 'place_holder',
-        password: process.env.SQL_PASSWORD
-
+        password: '123456',
+        // password: process.env.SQL_PASSWORD
 });
 
 module.exports = pool
+
+
 
 // async function fillTablePhotos() {
 //         const data = await fetch('https://jsonplaceholder.typicode.com/photos')

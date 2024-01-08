@@ -32,7 +32,7 @@ function Home() {
       <div className="butLink" onClick={() => navigate("Albums")}>
         Albums
       </div>
-      <div className="butLink" onClick={() => navigate(`/User/1/Home/Todos`)}>
+      <div className="butLink" onClick={() => navigate("Todos")}>
         Todos
       </div>
       <div className="butLink" onClick={() => navigate("Posts")}>

@@ -68,7 +68,7 @@ todos_router.get('/getFalse', valid, async (req, res) => {
 })
 todos_router.post('/add', valid, async (req, res) => {
         try {
-                if (req.user.userId === req.params.userId) {
+                if (req.user.userId === parseInt(req.userId)) {
                         const data = await todos_function.addTodo(req)
                         if (data.affectedRows < 1) {
                                 res.status(404).send('Not Found')
@@ -90,7 +90,7 @@ todos_router.post('/add', valid, async (req, res) => {
 todos_router.put('/updateTitle/:id', valid, async (req, res) => {
         try {
 
-                if (req.user.userId === req.params.userId) {
+                if (req.user.userId === parseInt(req.userId)) {
                         const data = await todos_function.updateTodoTitle(req)
                         if (!data) {
                                 res.status(404).send('Not Found')
@@ -109,7 +109,9 @@ todos_router.put('/updateTitle/:id', valid, async (req, res) => {
 })
 todos_router.put('/updateComplet/:id', async (req, res) => {
         try {
-                if (req.user.userId === req.params.userId) {
+                console.log(req.user.userId + '' + parseInt(req.userId));
+
+                if (req.user.userId === parseInt(req.userId)) {
                         const data = await todos_function.updateTodoComplet(req)
                         if (!data) {
                                 res.status(404).send('Not Found')
@@ -126,8 +128,11 @@ todos_router.put('/updateComplet/:id', async (req, res) => {
 })
 todos_router.delete('/delete/:id', valid, async (req, res) => {
         try {
-                if (req.user.userId === req.params.userId) {
+
+                if (req.user.userId === parseInt(req.userId)) {
+
                         const data = await todos_function.deleteTodo(req)
+
                         if (!data) {
                                 res.status(404).send('Not Found')
                         }
@@ -135,7 +140,10 @@ todos_router.delete('/delete/:id', valid, async (req, res) => {
                                 res.send(data)
                         }
                 }
-                else { res.status(404).send('Not allowed') }
+                else {
+
+                        res.status(404).send('Not allowed')
+                }
         }
         catch {
                 res.status(500).send()

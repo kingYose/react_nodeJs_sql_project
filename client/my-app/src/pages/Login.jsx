@@ -44,6 +44,7 @@ function Login() {
     onChangeRegisterName(e);
     setuserName1(e.target.value);
   }
+
   function onChangePassword(e) {
     onChangeRegisterPass(e);
     setpassword1(e.target.value);
